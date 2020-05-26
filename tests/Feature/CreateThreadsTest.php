@@ -18,7 +18,7 @@ class CreateThreadsTest extends TestCase
         $this->expectException('Illuminate\Auth\AuthenticationException');
         
         
-        $thread = factory('App\Thread')->make();
+        $thread = make('App\Thread');
         $this->post('/threads', $thread->toArray());
     }
 
@@ -29,10 +29,10 @@ class CreateThreadsTest extends TestCase
     {
         $this->withoutExceptionHandling();
         // dado que tenemos un usuario autentificado
-        $this->actingAs(factory('App\User')->create());
+        $this->signIn();
         
         // cuando creamos un hilo nuevo
-        $thread = factory('App\Thread')->make();
+        $thread = make('App\Thread');
 
         $this->post('/threads', $thread->toArray());
         
