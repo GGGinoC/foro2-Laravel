@@ -22,6 +22,12 @@ class CreateThreadsTest extends TestCase
         $this->post('/threads', $thread->toArray());
     }
 
+    /** @test */
+    public function guest_cannot_see_the_create_page()
+    {
+        $response = $this->get('/threads/create');
+        $response->assertRedirect('/login');
+    }
 
 
     /** @test */
