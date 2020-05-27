@@ -12,23 +12,14 @@ class CreateThreadsTest extends TestCase
     use DatabaseMigrations;
 
     /** @test */
-    public function guest_may_not_make_threads()
-    {
-        $this->withoutExceptionHandling();
-        $this->expectException('Illuminate\Auth\AuthenticationException');
-        
-        
-        $thread = make('App\Thread');
-        $this->post('/threads', $thread->toArray());
-    }
-
-    /** @test */
-    public function guest_cannot_see_the_create_page()
+    public function guest_may_not_create_threads()
     {
         $response = $this->get('/threads/create');
         $response->assertRedirect('/login');
-    }
 
+        $response = $this->post('/threads');
+        $response->assertRedirect('/login');
+    }
 
     /** @test */
     public function an_authenticated_user_can_make_their_own_threads()
@@ -38,10 +29,9 @@ class CreateThreadsTest extends TestCase
         $this->signIn();
         
         // cuando creamos un hilo nuevo
-        $thread = make('App\Thread');
+        $thread = create('App\Thread');
 
         $this->post('/threads', $thread->toArray());
-        
         // entonces, cuando visitamos la pagina de hilos
         $response = $this->get($thread->path());
 

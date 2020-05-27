@@ -11,25 +11,15 @@ class ParticipateInForumTest extends TestCase
 {
     use DatabaseMigrations;
     
-    // public function setUp():void
-    // {
-    //     parent::setUp();
-    //     $this->thread = factory('App\Thread')->create();
 
-    // }
-    
-    
     /** @test */ 
     public function unauthenticated_user_may_not_add_replies()
     {
-        $this->withoutExceptionHandling();
-        $this->expectException('Illuminate\Auth\AuthenticationException');
-
-        $this->post('threads/1/replies', []);
-        
+        $this->post('threads/channel/1/replies', [])
+            ->assertRedirect('/login');     
     }
     
-
+ 
 
     
     /** @test */
@@ -41,8 +31,9 @@ class ParticipateInForumTest extends TestCase
         $this->be($user);
         
         $thread = create('App\Thread');
-        
         $reply = make('App\Reply');
+
+
         $this->post($thread->path() . '/replies', $reply->toArray());
       
         $this->get($thread->path())
