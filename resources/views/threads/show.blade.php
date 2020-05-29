@@ -38,6 +38,10 @@
                        
                         <textarea name="body" id="body" class="form-control" 
                         placeholder="tienes algo que decir?" rows="4"></textarea>
+                        
+                    </div>
+
+                    <div class="form-group">
                         <button type="submit" class="btn btn-primary">Post</button>
                     </div>
                 </form>
